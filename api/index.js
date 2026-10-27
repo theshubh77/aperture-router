@@ -34,9 +34,12 @@ function parseJsonBody(req) {
 }
 
 export default async function handler(req, res) {
-  const originalPath = req.headers['x-matched-path'] || req.headers['x-forwarded-url'] || req.url;
+  const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const queryPath = reqUrl.searchParams.get('path');
+  const originalPath = queryPath || req.headers['x-matched-path'] || req.headers['x-forwarded-url'] || req.url;
   const url = new URL(originalPath, `http://${req.headers.host || 'localhost'}`);
   const pathname = url.pathname;
+  const normalized = pathname.replace(/^\/api/, '');
 
   // Handle CORS Preflight
   if (req.method === 'OPTIONS') {
