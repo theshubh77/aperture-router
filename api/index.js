@@ -69,6 +69,35 @@ export default async function handler(req, res) {
       return;
     }
 
+    if (pathname === '/v1' || pathname === '/v1/') {
+      sendJson(res, 200, {
+        status: 'active',
+        service: 'Aperture OpenAI-Compatible Proxy',
+        routes: ['/v1/chat/completions (POST)', '/v1/models (GET)'],
+        docs: 'https://github.com/theshubh77/aperture-router#drop-in-openai-compatibility'
+      });
+      return;
+    }
+
+    if (pathname === '/v1/chat/completions' && req.method === 'GET') {
+      sendJson(res, 200, {
+        endpoint: '/v1/chat/completions',
+        status: 'active',
+        message: 'Aperture OpenAI-compatible chat completions proxy. Send a POST request to execute inference.',
+        usage_example: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: {
+            model: 'aperture',
+            messages: [{ role: 'user', content: 'Your prompt here' }]
+          }
+        },
+        curl_example: "curl -X POST https://aperture-router.vercel.app/v1/chat/completions -H 'Content-Type: application/json' -d '{\"model\":\"aperture\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}'",
+        dashboard: 'https://aperture-router.vercel.app'
+      });
+      return;
+    }
+
     if (pathname === '/v1/chat/completions' && req.method === 'POST') {
       const body = await parseJsonBody(req);
       const result = await handleChatCompletions(body);
