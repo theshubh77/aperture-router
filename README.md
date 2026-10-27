@@ -7,7 +7,7 @@
 [![Hacktoberfest 2026](https://img.shields.io/badge/Hacktoberfest-2026_Track:_Best_Open--Source_AI-orange?style=for-the-badge)](https://hacktoberfest.com)
 
 🔗 **Live Interactive Dashboard:** [https://aperture-router.vercel.app](https://aperture-router.vercel.app)  
-📡 **Live OpenAI Proxy Endpoint:** [`https://aperture-router.vercel.app/v1/chat/completions`](https://aperture-router.vercel.app/v1/chat/completions)
+📡 **Live OpenAI Proxy Endpoint:** [https://aperture-router.vercel.app/v1/chat/completions](https://aperture-router.vercel.app/v1/chat/completions)
 
 Aperture is a lightweight, zero-dependency proxy and evaluation harness designed for local and edge AI deployments. It dynamically analyzes user prompts in sub-0.5ms and routes requests to the optimal open-weight model tier (from sub-1.5B Small Language Models up to 70B frontier models), reducing compute and VRAM footprint by up to 86% while cutting average inference latency by 4x.
 
