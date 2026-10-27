@@ -1,0 +1,56 @@
+{
+  "server": {
+    "port": 8080,
+    "host": "0.0.0.0"
+  },
+  "router": {
+    "default_strategy": "adaptive",
+    "fallback_enabled": true,
+    "max_escalations": 2,
+    "backend": "mock_adaptive",
+    "endpoints": {
+      "ollama": "http://127.0.0.1:11434",
+      "vllm": "http://127.0.0.1:8000/v1"
+    },
+    "tiers": {
+      "tier1_nano": {
+        "id": "tier1_nano",
+        "name": "Tier 1: Nano / SLM",
+        "description": "Sub-1.5B open-weight models for extraction, classification, structured JSON, and formatting",
+        "models": ["smollm2:1.7b", "qwen2.5:0.5b", "llama3.2:1b"],
+        "default_model": "llama3.2:1b",
+        "vram_gb": 1.2,
+        "max_complexity_score": 35,
+        "avg_ttft_ms": 28,
+        "tokens_per_sec": 115
+      },
+      "tier2_balanced": {
+        "id": "tier2_balanced",
+        "name": "Tier 2: Balanced / Coder",
+        "description": "3B-8B models for code generation, debugging, conversational reasoning, and synthesis",
+        "models": ["qwen2.5-coder:7b", "llama3.2:3b", "gemma2:9b"],
+        "default_model": "qwen2.5-coder:7b",
+        "vram_gb": 5.5,
+        "max_complexity_score": 75,
+        "avg_ttft_ms": 65,
+        "tokens_per_sec": 62
+      },
+      "tier3_heavy": {
+        "id": "tier3_heavy",
+        "name": "Tier 3: Reasoning / Heavy",
+        "description": "14B-70B models for multi-hop math, formal logic proofs, and complex architectural design",
+        "models": ["llama3.3:70b", "deepseek-r1:14b", "qwen2.5:32b"],
+        "default_model": "llama3.3:70b",
+        "vram_gb": 24.0,
+        "max_complexity_score": 100,
+        "avg_ttft_ms": 190,
+        "tokens_per_sec": 24
+      }
+    }
+  },
+  "harness": {
+    "default_iterations": 10,
+    "concurrency_limit": 4,
+    "telemetry_window_size": 1000
+  }
+}

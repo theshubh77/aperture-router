@@ -1,0 +1,32 @@
+{
+  "name": "aperture-router",
+  "version": "1.0.0",
+  "description": "Adaptive sub-millisecond open-weight model router and evaluation harness for LLMs and SLMs",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "aperture": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test tests/*.test.js",
+    "benchmark": "node src/harness/benchmark.js --cli"
+  },
+  "keywords": [
+    "open-weight",
+    "slm",
+    "llm-router",
+    "model-harness",
+    "eval-harness",
+    "local-ai",
+    "hacktoberfest-2026",
+    "ollama",
+    "vllm"
+  ],
+  "author": "Shubham Bhamare <theshubh77@users.noreply.github.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
