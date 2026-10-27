@@ -60,6 +60,15 @@ export default async function handler(req, res) {
       return;
     }
 
+    if (pathname === '/api' || pathname === '/api/') {
+      sendJson(res, 200, {
+        name: 'Aperture Open-Weight Router API',
+        status: 'active',
+        endpoints: ['/v1/chat/completions', '/v1/models', '/api/route', '/api/metrics', '/api/benchmark/run', '/health']
+      });
+      return;
+    }
+
     if (pathname === '/v1/chat/completions' && req.method === 'POST') {
       const body = await parseJsonBody(req);
       const result = await handleChatCompletions(body);
