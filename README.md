@@ -2,6 +2,13 @@
 
 **Adaptive Open-Weight Model Router and Evaluation Harness**
 
+[![Live Demo](https://img.shields.io/badge/Demo-Live_Dashboard-cyan?style=for-the-badge&logo=vercel)](https://aperture-router.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Hacktoberfest 2026](https://img.shields.io/badge/Hacktoberfest-2026_Track:_Best_Open--Source_AI-orange?style=for-the-badge)](https://hacktoberfest.com)
+
+🔗 **Live Interactive Dashboard:** [https://aperture-router.vercel.app](https://aperture-router.vercel.app)  
+📡 **Live OpenAI Proxy Endpoint:** `https://aperture-router.vercel.app/v1/chat/completions`
+
 Aperture is a lightweight, zero-dependency proxy and evaluation harness designed for local and edge AI deployments. It dynamically analyzes user prompts in sub-0.5ms and routes requests to the optimal open-weight model tier (from sub-1.5B Small Language Models up to 70B frontier models), reducing compute and VRAM footprint by up to 86% while cutting average inference latency by 4x.
 
 ---
@@ -93,7 +100,7 @@ Aperture exposes a drop-in replacement for `/v1/chat/completions`. Simply point 
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="http://localhost:8080/v1",
+    base_url="https://aperture-router.vercel.app/v1",  # Or http://localhost:8080/v1 locally
     api_key="not-needed"
 )
 
