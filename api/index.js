@@ -50,7 +50,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    if (pathname === '/health' && req.method === 'GET') {
+    const isChat = pathname.endsWith('/chat/completions') || normalized.endsWith('/chat/completions');
+    const isModels = pathname.endsWith('/models') || normalized.endsWith('/models');
+    const isRoute = pathname.endsWith('/route') || normalized.endsWith('/route');
+    const isMetrics = pathname.endsWith('/metrics') || normalized.endsWith('/metrics');
+    const isBenchmark = pathname.endsWith('/benchmark/run') || normalized.endsWith('/benchmark/run');
+    const isHealth = pathname.endsWith('/health') || normalized.endsWith('/health');
+
+    if (isHealth && req.method === 'GET') {
       sendJson(res, 200, {
         status: 'healthy',
         timestamp: new Date().toISOString(),
@@ -61,26 +68,7 @@ export default async function handler(req, res) {
       return;
     }
 
-    if (pathname === '/api' || pathname === '/api/') {
-      sendJson(res, 200, {
-        name: 'Aperture Open-Weight Router API',
-        status: 'active',
-        endpoints: ['/v1/chat/completions', '/v1/models', '/api/route', '/api/metrics', '/api/benchmark/run', '/health']
-      });
-      return;
-    }
-
-    if (pathname === '/v1' || pathname === '/v1/') {
-      sendJson(res, 200, {
-        status: 'active',
-        service: 'Aperture OpenAI-Compatible Proxy',
-        routes: ['/v1/chat/completions (POST)', '/v1/models (GET)'],
-        docs: 'https://github.com/theshubh77/aperture-router#drop-in-openai-compatibility'
-      });
-      return;
-    }
-
-    if (pathname === '/v1/chat/completions' && req.method === 'GET') {
+    if (isChat && req.method === 'GET') {
       sendJson(res, 200, {
         endpoint: '/v1/chat/completions',
         status: 'active',
@@ -99,19 +87,19 @@ export default async function handler(req, res) {
       return;
     }
 
-    if (pathname === '/v1/chat/completions' && req.method === 'POST') {
+    if (isChat && req.method === 'POST') {
       const body = await parseJsonBody(req);
       const result = await handleChatCompletions(body);
       sendJson(res, result.statusCode, result.body, result.headers);
       return;
     }
 
-    if (pathname === '/v1/models' && req.method === 'GET') {
+    if (isModels && req.method === 'GET') {
       sendJson(res, 200, handleListModels());
       return;
     }
 
-    if (pathname === '/api/route') {
+    if (isRoute) {
       let prompt = url.searchParams.get('prompt') || '';
       let model = url.searchParams.get('model') || 'aperture';
 
@@ -126,14 +114,23 @@ export default async function handler(req, res) {
       return;
     }
 
-    if (pathname === '/api/metrics' && req.method === 'GET') {
+    if (isMetrics && req.method === 'GET') {
       sendJson(res, 200, metricsCollector.getSnapshot());
       return;
     }
 
-    if (pathname === '/api/benchmark/run') {
+    if (isBenchmark) {
       const results = await runBenchmarkSuite();
       sendJson(res, 200, results);
+      return;
+    }
+
+    if (pathname === '/api' || pathname === '/api/' || pathname === '/v1' || pathname === '/v1/') {
+      sendJson(res, 200, {
+        name: 'Aperture Open-Weight Router API',
+        status: 'active',
+        endpoints: ['/v1/chat/completions', '/v1/models', '/api/route', '/api/metrics', '/api/benchmark/run', '/health']
+      });
       return;
     }
 
