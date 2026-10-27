@@ -137,7 +137,15 @@ export default async function handler(req, res) {
       return;
     }
 
-    sendJson(res, 404, { error: 'Endpoint not found' });
+    sendJson(res, 404, {
+      error: 'Endpoint not found',
+      debug: {
+        reqUrl: req.url,
+        pathname,
+        matchedPath: req.headers['x-matched-path'],
+        forwardedUrl: req.headers['x-forwarded-url']
+      }
+    });
   } catch (err) {
     sendJson(res, 500, { error: err.message });
   }
